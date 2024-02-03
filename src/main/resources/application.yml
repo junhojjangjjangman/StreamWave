@@ -1,0 +1,91 @@
+server:
+  #  address: localhost
+  port: 8081
+spring:
+  redis:
+    host: ${Redis_Host}
+    port: 6379
+    password: ${Redis_PW}
+  servlet:
+    multipart:
+      maxFileSize: 50MB
+      maxRequestSize: 50MB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://${MY_SQL_HOST}:${MY_SQL_PORT}/${DATA_BASE_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${MYSQL_USER_NAME}
+  jpa: # https://victorydntmd.tistory.com/323
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+
+
+
+oauth2:
+  kakao:
+    token-uri: ${KTOKEN_URI}
+    resource-uri: ${KRESOURCE_URI}
+    client-id: ${KCLIENT_ID}
+    redirect-uri: ${KREDIRECT_URI}
+    logging:
+      level:
+        com.example.kakaologin: debug
+  google:
+    client-id: ${GCLIENT_ID}
+    client-secret: ${GCLIENT_SECRET}
+    redirect-uri: ${GREDIRECT_URI}
+    token-uri: ${GTOKEN_URI}
+    resource-uri: ${GRESOURCE_URI}
+
+security:
+  secretKey: ${JWT_SECRETKEY}
+cloud:
+  aws:
+    s3:
+      bucket: streamwaves3
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+      auto: false
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    path: ${PRIVATE_KEY_PATH}
+    cloudFront:
+      keyPairId: ${KEY_PAIR_ID}
+      distributionDomain: ${DISTRIBUTION_DOMAIN}
+management:
+  health:
+    redis:
+      enabled: false
+    diskspace:
+      enabled: false
+  endpoints:
+    jmx:
+      exposure:
+        exclude: "*"
+    web:
+      exposure:
+        include: health,info,beans,conditions
+        exclude: threaddump, heapdump
+      base-path: /checking
+    enabled-by-default: false
+
+  endpoint:
+    health:
+      show-details: "always"
+      enabled: true
+    info:
+      enabled: true
+
